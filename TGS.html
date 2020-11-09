@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1 class="judul text-center mb-4">TO-DO LIST <i class="fa fa-check-circle" aria-hidden="true"></i> </h1>
+        <div class="col-md-5 mt-1 mx-auto" > 
+            <div class="card card-body inputx">                                                                    
+                <div class="form-group has-success">
+                    <label>Apa yang dikerjakan?</label>
+                    <input type="text" class="form-control" v-model="input.apa"/>
+                </div>
+                <div class="form-group has-success">
+                    <label>Prioritas</label>
+                    <select class="form-control" v-model="input.prioritas">
+                        <option v-for="prts in prioritas" v-bind:value="prts.opsi">{{prts.opsi}}</option>
+                    </select>
+                </div>
+                <div class="form-group has-success">
+                    <label>Catatan penting</label>
+                    <textarea class="form-control" v-model="input.ctt" rows="4"></textarea>
+                </div>
+                <div class="button-group" style="text-align: center;">
+                    <button @click="reset" class="btn btn-secondary" >Reset</button>
+                    <button @click="submit" class="btn btn-info" >Submit</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-5 mt-1 mx-auto" v-for='inp in input'> 
+            <div class="card card-body inputx" >                                                
+                <div v-if="inp.prioritas == 'Penting'">
+                    <h3 class="font-weight-bold" style="color: #df3737;">{{ inp.prioritas }}</h3>
+                </div>
+                <div v-if="inp.prioritas == 'Tidak Penting'">
+                    <h3 class="font-weight-bold" style="color: #1c9764;">{{ inp.prioritas }}</h3>
+                </div>
+                <div v-if="inp.prioritas == 'Biasa'">
+                    <h3 class="font-weight-bold" style="color: rgb(36, 94, 170);">{{ inp.prioritas }}</h3>
+                </div>
+                <h5>{{ inp.apa }} <span style="font-size: small;"> <br> {{ inp.ctt }} </span></h5>                
+                <br>
+                <div class="button">
+                    <button @click="delet(inp)" class="btn btn-secondary" >Delete</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <footer class="text-center mt-1">
+            {{rastra.nama}} | {{rastra.npm}} | {{rastra.kelas}}         
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            rastra: {
+                nama:'Made Rastra Kidyana',
+                npm: '180709618',
+                kelas: 'D',
+            },
+
+            input: [{
+                apa: 'Tubes PAW',
+                prioritas: 'Penting',
+                ctt: 'lagi 1 minggu'
+            }, {
+                apa: 'Netflix ria',
+                prioritas: 'Tidak Penting',
+                ctt: 'mengisi waktu luang'
+            }, {
+                apa: 'Olahraga',
+                prioritas: 'Biasa',
+                ctt: '10 menit bangun pagi cukup'
+            }],
+
+            prioritas: [{
+                opsi: 'Penting'
+            }, {
+                opsi: 'Tidak Penting'                
+            }, {            
+                opsi: 'Biasa'
+            }],
+        },
+        methods: {
+            submit: function(isi) {
+                isi.preventDefault();
+                this.input.push({
+                    apa: this.input.apa,
+                    prioritas: this.input.prioritas,
+                    ctt: this.input.ctt,
+                });
+                this.reset();
+            },
+
+            delet: function(inp) {
+                this.input.splice(this.input.indexOf(inp), 1)
+            },
+
+            reset() {
+                this.input.apa = "",
+                this.input.prioritas = "",
+                this.input.ctt = ""
+            },
+        }
+    });
+</script>
+
+
+<style>
+    body{
+        background-color: rgb(204, 139, 109);
+        padding: 20px;
+        margin: auto;
+        color: white;
+        font-weight: bold;
+    }
+
+    .judul{        
+        font-weight: bold;
+    }
+
+    .inputx{
+        background-color: #50320b;
+        border-radius: 10px;
+        
+    }
+</style>
+</html>
